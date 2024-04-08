@@ -26,12 +26,22 @@ class Cage2<T> {
         return animals.first()
     }
 
+    fun printAll() {
+        animals.forEach {
+            print(it.toString() + " ")
+        }
+    }
+
     fun put(animal : T){
         this.animals.add(animal)
     }
 
-    fun moveFrom(cage : Cage2<T>){
-        this.animals.addAll(cage.animals)
+    fun moveFrom(otherCage : Cage2<out T>){
+        this.animals.addAll(otherCage.animals)
+    }
+
+    fun moveTo(otherCage : Cage2<in T>){
+        otherCage.animals.addAll(this.animals)
     }
 }
 
@@ -42,8 +52,16 @@ abstract class Animal(
 
 abstract class Fish(name : String) : Animal(name)
 
-class GoldFish(name : String) : Fish(name)
-class Carp(name : String) : Fish(name)
+class GoldFish(name : String) : Fish(name){
+    override fun toString(): String {
+        return "GoldFish"
+    }
+}
+class Carp(name : String) : Fish(name){
+    override fun toString(): String {
+        return "Carp"
+    }
+}
 
 
 fun main(args: Array<String>) {
@@ -65,7 +83,18 @@ fun main(args: Array<String>) {
 
     // 제네릭 적용
     carpCage.put(Carp("붕어2"))
-    val carp = carpCage.getFirst()
-    
+    goldFishCage.put(GoldFish("금붕어2"))
+
+
+    // fishCage는 CarpCage를 못넣지만 나는 넣고싶다!
+    // 이럴때 out 키워드를 넣는다
+    fishCage.moveFrom(carpCage)
     fishCage.moveFrom(goldFishCage)
+
+    fishCage.printAll()
+
+    // goldFishCage안에 Fish이므로 안됨
+    goldFishCage.put(GoldFish("금붕어"))
+    // 하지만 나는 godlFish안에 Fish를 넣고싶다!
+    goldFishCage.moveTo(fishCage)
 }
