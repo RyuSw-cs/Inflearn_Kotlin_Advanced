@@ -1,7 +1,9 @@
+package generic
+
 class Cage {
     private val animals : MutableList<Animal> = mutableListOf()
 
-    fun getFirst() : Animal{
+    fun getFirst() : Animal {
         return animals.first()
     }
 
@@ -16,6 +18,7 @@ class Cage {
 
 // 제네릭으로 변경
 // 제네릭 문자는 대문자 1개가 정석
+// 무공변 = 상속받은 클래스일지라도 변하지 않는다
 class Cage2<T> {
     private val animals : MutableList<T> = mutableListOf()
 
@@ -63,9 +66,6 @@ fun main(args: Array<String>) {
     // 제네릭 적용
     carpCage.put(Carp("붕어2"))
     val carp = carpCage.getFirst()
-
-    //
+    
     fishCage.moveFrom(goldFishCage)
-
-
 }

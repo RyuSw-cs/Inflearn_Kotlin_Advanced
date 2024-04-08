@@ -1,4 +1,4 @@
-import java.lang.IllegalArgumentException
+import generic.Cage
 
 fun main(args: Array<String>) {
     val cage = Cage()
